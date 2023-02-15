@@ -72,16 +72,7 @@ export default ({ clients }) => {
               <Td>
                 <Center>{cli.Email}</Center>
               </Td>
-              <Td>
-                <Button
-                  onClick={() => {
-                   navigate(cli.link)
-                  }}
-                  colorScheme={'whatsapp'}
-                >
-                  voir plus
-                </Button>
-              </Td>
+           
 
               {/* <Th>
                  <Center>

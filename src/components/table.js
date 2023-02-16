@@ -76,7 +76,7 @@ export default ({ clients }) => {
               <Td>
                 <Button
                   onClick={() => {
-                   navigate(`/edit-${i}`)
+                   navigate(cli.link)
                   }}
                   colorScheme={'whatsapp'}
                 >

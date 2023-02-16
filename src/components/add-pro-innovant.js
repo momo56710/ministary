@@ -32,7 +32,7 @@ export default () => {
   };
   return (
     <>
-      <form>
+
         <Text fontSize="xl" fontWeight="bold">
           Année
         </Text>
@@ -189,7 +189,7 @@ export default () => {
         >
           Add
         </Button>
-      </form>
+
 
       <Button onClick={() => navigate('/')} variant={'solid'} size={'md'}>
         Return To LGLs

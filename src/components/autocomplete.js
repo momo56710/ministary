@@ -17,7 +17,6 @@ export default function App() {
     <Stack direction="column">
       <AutoComplete rollNavigation>
         <AutoCompleteInput
-          autoFocus
           placeholder="Wilaya"
         />
         <AutoCompleteList>

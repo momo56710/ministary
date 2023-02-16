@@ -23,11 +23,11 @@ export default function App() {
           {Object.keys(options).map(option => {
             return (
             <AutoCompleteItem
-           
               key={options[option].id}
               value={`${options[option].code}-${options[option].name}`}
               label={`${options[option].name}`}
               textTransform="capitalize"
+
             >
               {`${options[option].name}`}
             </AutoCompleteItem>

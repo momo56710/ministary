@@ -16,12 +16,52 @@ import {
   InputLeftAddon,
   InputRightAddon,
 } from '@chakra-ui/react';
+import React from 'react';
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+} from '@choc-ui/chakra-autocomplete';
+
+import Wilaya from './wilaya';
+import { Stack, useColorModeValue } from '@chakra-ui/react';
+
 export default () => {
+  const text = useColorModeValue('dark', 'light');
+  const options = Wilaya();
   const navigate = useNavigate();
   const [serials, setSerials] = useState([]);
   const [otherActivities, setotherActivities] = useState([]);
   const [coFounders, setcoFounders] = useState([]);
-
+  const [payload, setPayload] = useState({
+    type: 'ST',
+    num_label: '',
+    year: '',
+    creation_date: '',
+    num_employees: '',
+    first_name: '',
+    last_name: '',
+    sex: 'Homme',
+    qualifications: '',
+    email: '',
+    phone: '',
+    website: '',
+    startup_name: '',
+    activity: 'fintech',
+    description: '',
+    juridic_status: '',
+    nif: '',
+    presentation: '',
+    register: '',
+    advancement: '',
+    certificate: '',
+    recompense: '',
+    state: '',
+    address: '',
+    result: '',
+    other: '',
+  });
   const handleTagsChange = useCallback((event, tags) => {
     setSerials(tags);
   }, []);
@@ -35,19 +75,41 @@ export default () => {
       <Text fontSize="xl" fontWeight="bold">
         Année
       </Text>
-      <Input type={'number'} placeholder="20XX" />
+      <Input
+        type={'number'}
+        placeholder="20XX"
+        onChange={e => {
+          setPayload({ ...payload, year: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Numero de label
       </Text>
-      <Input placeholder="XXXXXXXXX" type={'number'} />
+      <Input
+        placeholder="XXXXXXXXX"
+        onChange={e => {
+          setPayload({ ...payload, num_label: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Dénomination commerciale / الاسم التجاري
       </Text>
-      <Input placeholder="Dénomination commerciale" type={'text'} />
+      <Input
+        placeholder="Dénomination commerciale"
+        type={'text'}
+        onChange={e => {
+          setPayload({ ...payload, startup_name: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Description courte du projet/ شرح مختصر للمشروع
       </Text>
-      <Textarea placeholder="Description" />
+      <Textarea
+        placeholder="Description"
+        onChange={e => {
+          setPayload({ ...payload, description: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Secteur d'activité / مجال العمل
       </Text>
@@ -55,6 +117,7 @@ export default () => {
         <Select
           value={otherActivities}
           onChange={e => {
+            setPayload({ ...payload, activity: e.target.value });
             setotherActivities(e.target.value);
           }}
         >
@@ -64,6 +127,9 @@ export default () => {
           <option value="Autre">Autre</option>
         </Select>
         <Input
+          onChange={e => {
+            setPayload({ ...payload, activity: e.target.value });
+          }}
           placeholder={otherActivities}
           display={e => display(otherActivities, display)}
         ></Input>
@@ -71,13 +137,25 @@ export default () => {
       <Text fontSize="xl" fontWeight="bold">
         Avancement du projet / مدى تقدم المشروع
       </Text>
-      <Textarea placeholder="Avancement du projet" />
+      <Textarea
+        placeholder="Avancement du projet"
+        onChange={e => {
+          setPayload({ ...payload, advancement: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Les qualifications scientifiques et techniques des fondateurs / المؤهلات
         العلمية والفنية للمؤسسين
       </Text>
       <InputGroup size="sm">
-        <Input className='fileInput' type={'file'} placeholder="link" />
+        <Input
+          className="fileInput"
+          type={'file'}
+          placeholder="link"
+          onChange={e => {
+            setPayload({ ...payload, qualifications: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Business Plan et présentation de la startup /خطة العمل وعرض الشركة
@@ -85,49 +163,96 @@ export default () => {
       </Text>
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
-        <Input placeholder="link" />
+        <Input
+          placeholder="link"
+          onChange={e => {
+            setPayload({ ...payload, presentation: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Brevet (si il y en a) / براءة الاختراع ان وجدت
       </Text>
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
-        <Input placeholder="link" />
+        <Input
+          placeholder="link"
+          onChange={e => {
+            setPayload({ ...payload, certificate: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Concours/récompenses / الجوائز و المسابقات
       </Text>
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
-        <Input placeholder="link" />
+        <Input
+          placeholder="link"
+          onChange={e => {
+            setPayload({ ...payload, recompense: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Copie du registre de commerce / نسخة من السجل التجاري
       </Text>
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
-        <Input placeholder="link" />
+        <Input
+          placeholder="link"
+          onChange={e => {
+            setPayload({ ...payload, register: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Nombre d'employés / عدد العمال
       </Text>
-      <Input type={'number'} placeholder="XX" />
+      <Input
+        type={'number'}
+        placeholder="XX"
+        onChange={e => {
+          setPayload({ ...payload, num_employees: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Date de création / تاريخ الانشاء
       </Text>
-      <Input type={'date'} />
+      <Input
+        type={'date'}
+        onChange={e => {
+          setPayload({ ...payload, creation_date: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Nom/اللقب
       </Text>
-      <Input placeholder="Nom" type={'text'} />
+      <Input
+        placeholder="Nom"
+        type={'text'}
+        onChange={e => {
+          setPayload({ ...payload, last_name: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Prénom /الاسم
       </Text>
-      <Input placeholder="Prenom" />
+      <Input
+        placeholder="Prenom"
+        onChange={e => {
+          setPayload({ ...payload, first_name: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Genre
       </Text>
-      <Select placeholder="">
+      <Select
+        placeholder=""
+        onChange={e => {
+          setPayload({ ...payload, sex: e.target.value });
+        }}
+      >
         <option value="Homme">Homme</option>
         <option value="femme">femme</option>
       </Select>
@@ -135,38 +260,90 @@ export default () => {
         E-mail / البريد الالكتروني
       </Text>
       <InputGroup>
-        <Input placeholder="email" />
+        <Input
+          placeholder="email"
+          onChange={e => {
+            setPayload({ ...payload, email: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Téléphone / الهاتف
       </Text>
       <InputGroup size="sm">
-        <Input placeholder="phone" type={'number'} />
+        <Input
+          placeholder="phone"
+          type={'number'}
+          onChange={e => {
+            setPayload({ ...payload, phone: e.target.value });
+          }}
+        />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Wilaya / الولاية
       </Text>
-      {Autocomplete()}
+      <Stack direction="column">
+        <AutoComplete rollNavigation>
+          <AutoCompleteInput placeholder="Wilaya" />
+          <AutoCompleteList>
+            {Object.keys(options).map(option => {
+              return (
+                <AutoCompleteItem
+                  key={options[option].id}
+                  value={`${options[option].code}-${options[option].name}`}
+                  label={`${options[option].name}`}
+                  textTransform="capitalize"
+                >
+                  {`${options[option].name}`}
+                </AutoCompleteItem>
+              );
+            })}
+          </AutoCompleteList>
+        </AutoComplete>
+      </Stack>
       <Text fontSize="xl" fontWeight="bold">
         Adresse / العنوان
       </Text>
-      <Input placeholder="Adresse" />
+      <Input
+        placeholder=""
+        onChange={e => {
+          setPayload({ ...payload, address: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
-      Forme juridique/ الشكل القانوني
+        Forme juridique/ الشكل القانوني
       </Text>
-      <Input placeholder="Adresse" />
+      <Input
+        placeholder=""
+        onChange={e => {
+          setPayload({ ...payload, juridic_status: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
-      NIF (numéro d'identification fiscale)
+        NIF (numéro d'identification fiscale)
       </Text>
-      <Input placeholder="Adresse" />
+      <Input
+        placeholder="nif"
+        onChange={e => {
+          setPayload({ ...payload, nif: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
-      Resultat
+        Resultat
       </Text>
-      <Input placeholder="Adresse" />
+      <Input
+        placeholder=""
+        onChange={e => {
+          setPayload({ ...payload, result: e.target.value });
+        }}
+      />
       <Text fontSize="xl" fontWeight="bold">
         Autre
       </Text>
       <TagInput
+        onChange={e => {
+          setPayload({ ...payload, other: e.target.value });
+        }}
         placeholder={'Autre'}
         tags={serials}
         colorScheme="teal"
@@ -177,7 +354,7 @@ export default () => {
         colorScheme={'teal'}
         size={'md'}
         onClick={async () => {
-          console.log();
+          console.log(payload);
         }}
       >
         Add

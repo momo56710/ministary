@@ -11,6 +11,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { Route, useNavigate, BrowserRouter, Routes, Navigate } from 'react-router-dom';
+import editfile from './editfile';
 export default ({ clients }) => {
   const navigate = useNavigate()
   return (
@@ -46,7 +47,7 @@ export default ({ clients }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {clients.map(cli => (
+          {clients.map((cli,i) => (
             <Tr>
               <Td>
                 <Center>{cli.Num}</Center>
@@ -75,7 +76,7 @@ export default ({ clients }) => {
               <Td>
                 <Button
                   onClick={() => {
-                   navigate(cli.link)
+                   navigate(`/edit-${i}`)
                   }}
                   colorScheme={'whatsapp'}
                 >

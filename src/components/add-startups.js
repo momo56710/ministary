@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import Autocomplete from './autocomplete.js';
 import activities from './activities';
 import TagInput from './input';
+
 import {
   Text,
   Input,
@@ -15,7 +16,6 @@ import {
   InputLeftAddon,
   InputRightAddon,
 } from '@chakra-ui/react';
-
 export default () => {
   const navigate = useNavigate();
   const [serials, setSerials] = useState([]);
@@ -77,9 +77,7 @@ export default () => {
         العلمية والفنية للمؤسسين
       </Text>
       <InputGroup size="sm">
-        <InputLeftAddon children="https://" />
-        <Input placeholder="link" />
-        <InputRightAddon children=".com" />
+        <Input className='fileInput' type={'file'} placeholder="link" />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Business Plan et présentation de la startup /خطة العمل وعرض الشركة
@@ -88,7 +86,6 @@ export default () => {
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
         <Input placeholder="link" />
-        <InputRightAddon children=".com" />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Brevet (si il y en a) / براءة الاختراع ان وجدت
@@ -96,7 +93,6 @@ export default () => {
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
         <Input placeholder="link" />
-        <InputRightAddon children=".com" />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Concours/récompenses / الجوائز و المسابقات
@@ -104,7 +100,6 @@ export default () => {
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
         <Input placeholder="link" />
-        <InputRightAddon children=".com" />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Copie du registre de commerce / نسخة من السجل التجاري
@@ -112,16 +107,15 @@ export default () => {
       <InputGroup size="sm">
         <InputLeftAddon children="https://" />
         <Input placeholder="link" />
-        <InputRightAddon children=".com" />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Nombre d'employés / عدد العمال
       </Text>
-      <Input type={'number'} placeholder="20XX" />
+      <Input type={'number'} placeholder="XX" />
       <Text fontSize="xl" fontWeight="bold">
         Date de création / تاريخ الانشاء
       </Text>
-      <Input type={'date'} placeholder="20XX" />
+      <Input type={'date'} />
       <Text fontSize="xl" fontWeight="bold">
         Nom/اللقب
       </Text>
@@ -142,13 +136,11 @@ export default () => {
       </Text>
       <InputGroup>
         <Input placeholder="email" />
-        <InputRightAddon children="@gmail.com" />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">
         Téléphone / الهاتف
       </Text>
       <InputGroup size="sm">
-        <InputLeftAddon children="+213" />
         <Input placeholder="phone" type={'number'} />
       </InputGroup>
       <Text fontSize="xl" fontWeight="bold">

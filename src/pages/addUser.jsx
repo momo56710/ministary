@@ -11,10 +11,9 @@ import {
   useColorModeValue,
   useToast,
 } from '@chakra-ui/react';
-import { setSession, getSession } from '../utils/auth';
-import { useNavigate } from 'react-router-dom';
+
 import axios from 'axios';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 export default function SimpleCard() {
   const AuthUser = async payload => {
     setLoading(true);
@@ -37,8 +36,6 @@ export default function SimpleCard() {
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-  const navigate = useNavigate();
-  if (getSession()) navigate('/dashboard');
 
   return (
     <>
@@ -48,9 +45,9 @@ export default function SimpleCard() {
         justify={'center'}
         bg={useColorModeValue('gray.50', 'gray.800')}
       >
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
+        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6} minW={'40vw'}>
           <Stack align={'center'}>
-            <Heading fontSize={'4xl'}>Sign in to your Dashboard</Heading>
+            <Heading fontSize={'4xl'}>Add Another User</Heading>
           </Stack>
           <Box
             rounded={'lg'}
@@ -77,6 +74,15 @@ export default function SimpleCard() {
                   }}
                 />
               </FormControl>
+              <FormControl id="password">
+                <FormLabel>confirm Password</FormLabel>
+                <Input
+                  type={checked ? 'text' : 'password'}
+                  onChange={e => {
+                    setPayload({ ...payload, password: e.target.value });
+                  }}
+                />
+              </FormControl>
               <Stack spacing={10}>
                 <Stack
                   direction={{ base: 'column', sm: 'row' }}
@@ -92,6 +98,7 @@ export default function SimpleCard() {
                     Show Password
                   </Checkbox>
                 </Stack>
+
                 <Button
                   bg={'blue.400'}
                   color={'white'}
@@ -103,7 +110,6 @@ export default function SimpleCard() {
                     const res = await AuthUser(payload);
                     console.log(res);
                     if (res.sucess) {
-                      const { token, email } = res;
                       toast({
                         title: 'Account Signed in.',
                         description: "We've logged your account for you.",
@@ -111,13 +117,6 @@ export default function SimpleCard() {
                         duration: 9000,
                         isClosable: true,
                       });
-                      sessionStorage.setItem(
-                        'startup_jwt',
-                        JSON.stringify({ token, email })
-                      );
-                      console.log('Set in Session Storage');
-                      const jwt = sessionStorage.getItem('startup_jwt');
-                      console.log(JSON.parse(jwt));
                     } else if (!res.sucess || res.error) {
                       toast({
                         title: 'Signing in Failed',
@@ -131,7 +130,7 @@ export default function SimpleCard() {
                     }
                   }}
                 >
-                  Sign in
+                  Add
                 </Button>
               </Stack>
             </Stack>

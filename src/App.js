@@ -1,28 +1,30 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ChakraProvider, theme } from '@chakra-ui/react';
-import Add from './pages/add';
+
 import WorkingOnIt from './pages/workingOnIt';
 import Dashboard from './pages/dashboard';
-import Edit from './pages/edit'
-import LogIn from './pages/logIn'
-import Tst from './pages/tst'
-import client from './components/client';
+import EditInnovant from './components/editpages/Innovant';
+import LogIn from './pages/login';
+
+import Innovant from './components/addingPages/Innovant';
+import Tst from './components/addingPages/tst-input';
+import Startups from './components/addingPages/Startups';
+import AddUser from './pages/addUser';
+
 function App() {
   return (
     <ChakraProvider theme={theme}>
       <BrowserRouter>
         <Routes>
-          <Route path="/addS" element={<Add Add='AddS'/>} />
-          <Route path="/addPI" element={<Add Add='AddPI'/>} />
-          <Route path="/Log-In" element={<LogIn/>} />
-          <Route path="/comming-soon" element={<WorkingOnIt/>} />
-          {client().map((cli,i) => (
-            <Route path={`/edit-${i}`} element={<Edit person={cli}/>} />
-          ))
-            }
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/add/st" element={<Startups />} />
           <Route path="/tst" element={<Tst />} />
+          <Route path="/add/pi" element={<Innovant />} />
+          <Route path="/edit/pi" element={<EditInnovant />} />
+          <Route path="/add/user" element={<AddUser />} />
+          <Route path="/login" element={<LogIn />} />
+          <Route path="/comming-soon" element={<WorkingOnIt />} />
         </Routes>
       </BrowserRouter>
     </ChakraProvider>

@@ -13,13 +13,18 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  MenuDivider,
 } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import { HamburgerIcon, CloseIcon, AddIcon, InfoIcon } from '@chakra-ui/icons';
 import { ColorModeSwitcher } from '../ColorModeSwitcher';
-
-const Links = ['Service label', 'Comite de labilisation'];
-const Urls = ['', ''];
+import { removeSession } from '../utils/auth';
+const Links = [
+  'Service label',
+  'Comite de labilisation',
+  'Ajouter utilisateur',
+];
+const Urls = ['dashboard', 'dashboard', 'add/user'];
 
 export default function WithAction({ email, d, linkPage }) {
   const navigate = useNavigate();
@@ -69,38 +74,33 @@ export default function WithAction({ email, d, linkPage }) {
             <Menu>
               <MenuButton
                 as={Button}
-                rounded={'full'}
-                variant={'link'}
                 cursor={'pointer'}
                 minW={0}
+                display={d}
+                variant={'solid'}
+                colorScheme={'teal'}
+                size={'sm'}
+                mr={4}
+                leftIcon={<AddIcon />}
               >
-                <Button
-                  display={d}
-                  variant={'solid'}
-                  colorScheme={'teal'}
-                  size={'sm'}
-                  mr={4}
-                  leftIcon={<AddIcon />}
-                >
-                  Add
-                </Button>
+                Ajouter Label
               </MenuButton>
               <MenuList>
-                <MenuItem>
-                  <Link onClick={() =>navigate('/addPI')}> Label Proget innovent</Link>
+                <MenuItem onClick={() => navigate('/add/pi')}>
+                  Label Projet innovent
                 </MenuItem>
-                <MenuItem><Link onClick={() =>navigate('/addS')}> Label Startups</Link></MenuItem>
-                <MenuItem><Link onClick={() =>navigate('/comming-soon')}> Label incrument</Link></MenuItem>
+                <MenuItem onClick={() => navigate('/add/st')}>
+                  Label Startups
+                </MenuItem>
+                <MenuItem onClick={() => navigate('/add/in')}>
+                  Label Incubator
+                </MenuItem>
               </MenuList>
             </Menu>
+
+            <ColorModeSwitcher mr={4} variant={'solid'} size={'sm'} />
             <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}
-              >
+              <MenuButton cursor={'pointer'} minW={0} mr={4}>
                 <Avatar
                   size={'sm'}
                   src={
@@ -108,11 +108,20 @@ export default function WithAction({ email, d, linkPage }) {
                   }
                 />
               </MenuButton>
+
               <MenuList>
                 <MenuItem>{email}</MenuItem>
+                <MenuDivider></MenuDivider>
+                <MenuItem
+                  onClick={() => {
+                    removeSession();
+                    navigate('/login');
+                  }}
+                >
+                  Log Out
+                </MenuItem>
               </MenuList>
             </Menu>
-            <ColorModeSwitcher mr={4} variant={'solid'} size={'sm'} />
           </Flex>
         </Flex>
 
@@ -120,7 +129,7 @@ export default function WithAction({ email, d, linkPage }) {
           <Box pb={4} display={{ md: 'none' }}>
             <Stack as={'nav'} spacing={4}>
               {Links.map((link, i) => (
-                <NavLink key={link} url={'/'}>
+                <NavLink key={link} url={Urls[i]}>
                   {link}
                 </NavLink>
               ))}

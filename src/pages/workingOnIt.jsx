@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Center, Grid } from '@chakra-ui/react';
+import { Box, Center } from '@chakra-ui/react';
 import NavBar from '../components/nav';
 export default function workingOnIt() {
   return (

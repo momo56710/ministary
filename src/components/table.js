@@ -2,25 +2,22 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   Center,
   Button,
 } from '@chakra-ui/react';
-import { Route, useNavigate, BrowserRouter, Routes, Navigate } from 'react-router-dom';
-import editfile from './editfile';
+import { useNavigate } from 'react-router-dom';
 export default ({ clients }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
     <Center display={'block'} overflowX={'auto'} whiteSpace={'nowrap'}>
       <Table variant="simple" maxW={'80vw'} m={'auto'}>
         <Thead>
           <Tr>
             <Th>
-              <Center>Num</Center>
+              <Center>Type</Center>
             </Th>
             <Th>
               <Center>Numero de label</Center>
@@ -34,54 +31,48 @@ export default ({ clients }) => {
             <Th>
               <Center>Prenom</Center>
             </Th>
+
             <Th>
-              <Center>Type</Center>
+              <Center>wilaya</Center>
             </Th>
             <Th>
-              <Center>Genre</Center>
+              <Center>Actions</Center>
             </Th>
-            <Th>
-              <Center>Email</Center>
-            </Th>
-            <Th></Th>
           </Tr>
         </Thead>
         <Tbody>
-          {clients.map((cli,i) => (
+          {clients.map((cli, i) => (
             <Tr>
               <Td>
-                <Center>{cli.Num}</Center>
+                <Center>{cli.type}</Center>
               </Td>
               <Td>
-                <Center>{cli.NDL}</Center>
+                <Center>{cli.num_label}</Center>
               </Td>
               <Td>
-                <Center>{cli.Annee}</Center>
+                <Center>{cli.year}</Center>
               </Td>
               <Td>
-                <Center>{cli.Nom}</Center>
+                <Center>{cli.first_name}</Center>
               </Td>
               <Td>
-                <Center>{cli.Prenom}</Center>
+                <Center>{cli.last_name}</Center>
               </Td>
               <Td>
-                <Center>{cli.Type}</Center>
+                <Center>{cli.state}</Center>
               </Td>
               <Td>
-                <Center>{cli.Genre}</Center>
-              </Td>
-              <Td>
-                <Center>{cli.Email}</Center>
-              </Td>
-              <Td>
-                <Button
-                  onClick={() => {
-                   navigate(`/edit-${i}`)
-                  }}
-                  colorScheme={'whatsapp'}
-                >
-                  voir plus
-                </Button>
+                <Center gap={4}>
+                  <Button
+                    onClick={() => {
+                      navigate(`/edit/pi`);
+                    }}
+                    colorScheme={'teal'}
+                  >
+                    Voir plus
+                  </Button>
+                  <Button colorScheme={'red'}>Download PDF</Button>
+                </Center>
               </Td>
 
               {/* <Th>

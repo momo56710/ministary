@@ -1,32 +1,54 @@
-import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Table from '../components/table';
 import NavBar from '../components/nav';
-import Clients from '../components/client'
-import { Center, Input, Heading, Button, Select } from '@chakra-ui/react';
+import { useParams } from 'react-router-dom';
+import { getSession } from '../utils/auth';
+import Clients from '../components/client';
+import { Center, Input, Heading, Button } from '@chakra-ui/react';
 import { ChevronRightIcon } from '@chakra-ui/icons';
-
 export default function App() {
-  const [session, setSession] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [productsClone, setProductsClone] = useState([]);
+  const [session, setSession] = useState('');
   const [pageIndex, setPageIndex] = useState(1);
   let [loading, setLoading] = useState(true);
   const navigate = useNavigate();
   const getItemsSlicedByIndex = (products, index) =>
-    products.slice((index - 1) * 5, 5 * index);
+    products.slice((index - 1) * 6, 6 * index);
   const getMaxPageIndex = products =>
-    products.length % 5 === 0
-      ? Math.floor(products.length / 5)
-      : Math.floor(products.length / 5) + 1;
-console.log(Clients())
-  
+    products.length % 6 === 0
+      ? Math.floor(products.length / 6)
+      : Math.floor(products.length / 6) + 1;
+
+  // useEffect(() => {
+  //   if (!getSession()?.token) navigate('/login');
+  // });F
+  const [document, setDocument] = useState([]);
+  const { _id } = useParams();
+  useEffect(() => {
+    const session = getSession();
+
+    axios
+      .get('https://api.stingo.vip/api/document/pi/63ef816eb5d87b2f9ad545d4', {
+        headers: {
+          Authorization: `Bearer ${session.token}`,
+        },
+      })
+      .then(res => {
+        setDocument(res.data.doc);
+        setLoading(false);
+      })
+      .catch(err => console.log(err));
+  }, []);
+
+  if (loading) return <h1>Loading ...</h1>;
   return (
     <>
-      <NavBar email={'Xahu'} d={'inline'} linkPage={'/addLS'}></NavBar>
+      {console.log(document)}
+      <NavBar email={'user@gmail.com'}></NavBar>
       <Center>
-        <Heading as="h2" size="3xl" textAlign={'center'}>
-          LGL manager
+        <Heading as="h2" size="3xl" marginBlock={4} textAlign={'center'}>
+          Startups.dz Manager
         </Heading>
       </Center>
       <Center marginBlock={8}>
@@ -39,8 +61,8 @@ console.log(Clients())
         />
       </Center>
 
-      <Table clients={getItemsSlicedByIndex(Clients(), pageIndex)}></Table>
-      <Center>
+      <Table clients={[document]}></Table>
+      <Center mt={8}>
         <Button
           mr={4}
           onClick={() => {
@@ -54,13 +76,13 @@ console.log(Clients())
         </Button>
         <ChevronRightIcon color="gray.500" />
         <Button disabled ml={1}>
-          {getMaxPageIndex(Clients())}
+          {getMaxPageIndex(document)}
         </Button>
         <Button
           ml={4}
           onClick={() => {
-            pageIndex >= getMaxPageIndex(Clients())
-              ? setPageIndex(getMaxPageIndex(Clients()))
+            pageIndex >= getMaxPageIndex(document)
+              ? setPageIndex(getMaxPageIndex(document))
               : setPageIndex(pageIndex + 1);
           }}
         >

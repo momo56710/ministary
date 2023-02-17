@@ -1,29 +1,30 @@
 import { Box, Text, Center, Grid } from '@chakra-ui/react';
-import AddS from '../components/add-startups';
-import AddPI from '../components/add-pro-innovant';
+import AddS from '../components/addingPages/Startups';
+import AddPI from '../components/addingPages/Innovant';
 import NavBar from '../components/nav';
+import { useState } from 'react';
 
-export default function App(Add) {
-  const title = () => {
-    if (Add.Add === 'AddS') {
-      return ('Ajouter Label Startups');
-    }
-    if (Add.Add === 'AddPI') {
-      return ('Ajouter Label Projet Innovent');
-    }
-  };
+export default function App({ add }) {
+  const [title, setTitle] = useState('');
+
+  if (add === 'ST') {
+    setTitle('Ajouter Label Startups')
+  }
+  if (add === 'PI') {
+    setTitle('Ajouter Label Projet Innovent') 
+  }
   const addType = () => {
-    if (Add.Add === 'AddS') {
+    if (add === 'ST') {
       return <AddS />;
     }
-    if (Add.Add === 'AddPI') {
+    if (add === 'PI') {
       return <AddPI />;
     }
   };
 
   return (
     <>
-      <NavBar email={'momo'} d={'none'}></NavBar>
+      <NavBar email={'user@gmail.com'}></NavBar>
 
       <Box>
         <Center>
@@ -46,6 +47,7 @@ export default function App(Add) {
     </>
   );
 }
+
 // Année
 // Numero de label
 // Nom/اللقب

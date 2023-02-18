@@ -29,13 +29,13 @@ export default function App() {
     const session = getSession();
 
     axios
-      .get('https://api.stingo.vip/api/document/pi/63ef816eb5d87b2f9ad545d4', {
+      .get('https://api.stingo.vip/api/list', {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },
       })
       .then(res => {
-        setDocument(res.data.doc);
+        setDocument(res.data.PI);
         setLoading(false);
       })
       .catch(err => console.log(err));
@@ -61,7 +61,7 @@ export default function App() {
         />
       </Center>
 
-      <Table clients={getItemsSlicedByIndex([document],pageIndex)}></Table>
+      <Table clients={getItemsSlicedByIndex(document,pageIndex)}></Table>
       <Center mt={8}>
         <Button
           mr={4}

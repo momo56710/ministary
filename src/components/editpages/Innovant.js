@@ -29,7 +29,6 @@ import {
 import NavBar from '../nav';
 import Wilaya from '../data/wilaya';
 import { Stack, useColorModeValue } from '@chakra-ui/react';
-
 export default () => {
   const [session, setSession] = useState('');
   const text = useColorModeValue('dark', 'light');
@@ -39,27 +38,7 @@ export default () => {
   const [otherActivities, setOtherActivities] = useState([]);
   const [coFounders, setCoFounders] = useState([]);
   const [payload, setPayload] = useState({
-    type: 'PI',
-    num_label: '',
-    year: '',
-    role: 'founder',
-    first_name: '',
-    last_name: '',
-    sex: 'male',
-    email: '',
-    phone: '',
-    website: '',
-    project_name: '',
-    activity: 'Fintech',
-    description: '',
-    presentation: '',
-    advancement: 'Concept/Idée',
-    cv: '',
-    certificate: '',
-    recompense: '',
-    state: '',
-    address: '',
-    other: '',
+
   });
   const handleTagsChange = useCallback((event, tags) => {
     setCoFounder(tags);
@@ -82,7 +61,7 @@ export default () => {
     const session = getSession();
 
     axios
-      .get('https://api.stingo.vip/api/document/pi/63ef816eb5d87b2f9ad545d4', {
+      .get('https://api.stingo.vip/api/document/pi/'+_id, {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },
@@ -90,6 +69,8 @@ export default () => {
       .then(res => {
         setDocument(res.data.doc);
         setLoading(false);
+        setCoFounder([...res.data.doc.coFounders])
+        setPayload(res.data.doc)
       })
       .catch(err => console.log(err));
   }, []);
@@ -209,7 +190,7 @@ export default () => {
                   <TagInput
                     disabled={editable}
                     placeholder={'Autres co-fondateurs / المؤسسون الاخرون'}
-                    tags={[...document.coFounders]}
+                    tags={coFounder}
                     colorScheme="teal"
                     onTagsChange={handleTagsChange}
                   />
@@ -425,6 +406,13 @@ export default () => {
                 <Text fontSize="xl" fontWeight="bold">
                   label(PDF)
                 </Text>
+                <Grid templateColumns={'2fr 1fr'} gap={8}>  
+                <Input
+                  type="text"
+                  textAlign={'center'}
+                  readOnly
+                  value={fileName.toString().substring(12, 1000)}
+                />
                 <label
                   className="css-wqpdoh"
                   for="pdf"
@@ -447,12 +435,8 @@ export default () => {
                     }}
                   />
                 </label>
-                <Input
-                  type="text"
-                  textAlign={'center'}
-                  readOnly
-                  value={fileName.toString().substring(12, 1000)}
-                />
+               </Grid>
+              
                 <Text fontSize="xl" fontWeight="bold">
                   Autre
                 </Text>
@@ -464,6 +448,7 @@ export default () => {
                     setPayload({ ...payload, other: e.target.value });
                   }}
                 />
+                <Grid >
                 <Button
                   display={visibale}
                   variant={'solid'}
@@ -473,8 +458,9 @@ export default () => {
                     try {
                       console.log({ ...payload, coFondateur: coFounder });
                       const res = await axios.post(
-                        'https://api.stingo.vip/api/create',
-                        { ...payload, coFounders: coFounder },
+                      
+                        'https://api.stingo.vip/api/update',
+                        { ...payload },
                         {
                           headers: {
                             Authorization: `Bearer ${session.token}`,
@@ -497,6 +483,7 @@ export default () => {
                 >
                   Return To Manager
                 </Button>
+                </Grid>
               </Grid>
             </Box>
           </Box>

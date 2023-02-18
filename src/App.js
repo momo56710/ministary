@@ -21,7 +21,7 @@ function App() {
           <Route path="/add/st" element={<Startups />} />
           <Route path="/tst" element={<Tst />} />
           <Route path="/add/pi" element={<Innovant />} />
-          <Route path="/edit/pi" element={<EditInnovant />} />
+          <Route path="/edit/pi/:_id" element={<EditInnovant />} />
           <Route path="/add/user" element={<AddUser />} />
           <Route path="/login" element={<LogIn />} />
           <Route path="/comming-soon" element={<WorkingOnIt />} />

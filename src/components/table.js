@@ -65,7 +65,7 @@ export default ({ clients }) => {
                 <Center gap={4}>
                   <Button
                     onClick={() => {
-                      navigate(`/edit/pi`);
+                      navigate(`/edit/pi/${cli._id}`);
                     }}
                     colorScheme={'teal'}
                   >

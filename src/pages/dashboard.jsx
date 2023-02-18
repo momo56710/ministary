@@ -61,7 +61,7 @@ export default function App() {
         />
       </Center>
 
-      <Table clients={[document]}></Table>
+      <Table clients={getItemsSlicedByIndex([document],pageIndex)}></Table>
       <Center mt={8}>
         <Button
           mr={4}

@@ -8,8 +8,13 @@ import {
   Center,
   Button,
 } from '@chakra-ui/react';
+import { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-export default ({ clients }) => {
+import axios from 'axios';
+import { getSession } from '../utils/auth.js';
+export default ({ clients , session}) => {
+ 
+ 
   const navigate = useNavigate();
   return (
     <Center display={'block'} overflowX={'auto'} whiteSpace={'nowrap'}>

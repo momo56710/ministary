@@ -61,7 +61,7 @@ export default function App() {
         />
       </Center>
 
-      <Table clients={getItemsSlicedByIndex(document,pageIndex)}></Table>
+      <Table clients={getItemsSlicedByIndex(document,pageIndex)} session={session}></Table>
       <Center mt={8}>
         <Button
           mr={4}

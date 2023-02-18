@@ -465,6 +465,7 @@ export default () => {
                           headers: {
                             Authorization: `Bearer ${session.token}`,
                           },
+                          
                         }
                       );
                       console.log({ res });
@@ -474,6 +475,32 @@ export default () => {
                   }}
                 >
                   Edit
+                </Button>
+                <Button
+                  display={visibale}
+                  variant={'solid'}
+                  colorScheme={'teal'}
+                  size={'md'}
+                  onClick={async () => {
+                    try {
+                      console.log({ ...payload, coFondateur: coFounder });
+                      const res = await axios.post(
+                      
+                        'https://api.stingo.vip/api/delete',
+                        {type : document.type, _id : document._id},
+                        {
+                          headers: {
+                            Authorization: `Bearer ${session.token}`,
+                          },
+                        }
+                      );
+                      console.log({ res });
+                    } catch (error) {
+                      console.log(error);
+                    }
+                  }}
+                >
+                  delete
                 </Button>
                 <Button colorScheme={'red'}>Download PDF</Button>
                 <Button

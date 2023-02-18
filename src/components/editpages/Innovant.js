@@ -30,16 +30,14 @@ import NavBar from '../nav';
 import Wilaya from '../data/wilaya';
 import { Stack, useColorModeValue } from '@chakra-ui/react';
 export default () => {
-  const [session, setSession] = useState('');
+  let [session, setSession] = useState('');
   const text = useColorModeValue('dark', 'light');
   const options = Wilaya();
   const navigate = useNavigate();
   const [fileName, setfileName] = useState([]);
   const [otherActivities, setOtherActivities] = useState([]);
   const [coFounders, setCoFounders] = useState([]);
-  const [payload, setPayload] = useState({
-
-  });
+  const [payload, setPayload] = useState({});
   const handleTagsChange = useCallback((event, tags) => {
     setCoFounder(tags);
   }, []);
@@ -58,10 +56,10 @@ export default () => {
   const { _id } = useParams();
 
   useEffect(() => {
-    const session = getSession();
+    session = getSession();
 
     axios
-      .get('https://api.stingo.vip/api/document/pi/'+_id, {
+      .get('https://api.stingo.vip/api/document/pi/' + _id, {
         headers: {
           Authorization: `Bearer ${session.token}`,
         },
@@ -69,8 +67,9 @@ export default () => {
       .then(res => {
         setDocument(res.data.doc);
         setLoading(false);
-        setCoFounder([...res.data.doc.coFounders])
-        setPayload(res.data.doc)
+        setCoFounder([...res.data.doc.coFounders]);
+        setPayload(res.data.doc);
+        setSession(getSession());
       })
       .catch(err => console.log(err));
   }, []);
@@ -406,37 +405,37 @@ export default () => {
                 <Text fontSize="xl" fontWeight="bold">
                   label(PDF)
                 </Text>
-                <Grid templateColumns={'2fr 1fr'} gap={8}>  
-                <Input
-                  type="text"
-                  textAlign={'center'}
-                  readOnly
-                  value={fileName.toString().substring(12, 1000)}
-                />
-                <label
-                  className="css-wqpdoh"
-                  for="pdf"
-                  style={{
-                    cursor: 'pointer',
-                    display: 'grid',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  Import
+                <Grid templateColumns={'2fr 1fr'} gap={8}>
                   <Input
-                    id="pdf"
-                    display={'none'}
-                    placeholder="Upload"
-                    type={'file'}
-                    pt={'0.3em'}
-                    onChange={e => {
-                      setfileName(e.target.value);
-                    }}
+                    type="text"
+                    textAlign={'center'}
+                    readOnly
+                    value={fileName.toString().substring(12, 1000)}
                   />
-                </label>
-               </Grid>
-              
+                  <label
+                    className="css-wqpdoh"
+                    for="pdf"
+                    style={{
+                      cursor: 'pointer',
+                      display: 'grid',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    }}
+                  >
+                    Import
+                    <Input
+                      id="pdf"
+                      display={'none'}
+                      placeholder="Upload"
+                      type={'file'}
+                      pt={'0.3em'}
+                      onChange={e => {
+                        setfileName(e.target.value);
+                      }}
+                    />
+                  </label>
+                </Grid>
+
                 <Text fontSize="xl" fontWeight="bold">
                   Autre
                 </Text>
@@ -448,68 +447,67 @@ export default () => {
                     setPayload({ ...payload, other: e.target.value });
                   }}
                 />
-                <Grid >
-                <Button
-                  display={visibale}
-                  variant={'solid'}
-                  colorScheme={'teal'}
-                  size={'md'}
-                  onClick={async () => {
-                    try {
-                      console.log({ ...payload, coFondateur: coFounder });
-                      const res = await axios.post(
-                      
-                        'https://api.stingo.vip/api/update',
-                        { ...payload },
-                        {
-                          headers: {
-                            Authorization: `Bearer ${session.token}`,
-                          },
-                          
-                        }
-                      );
-                      console.log({ res });
-                    } catch (error) {
-                      console.log(error);
-                    }
-                  }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  display={visibale}
-                  variant={'solid'}
-                  colorScheme={'teal'}
-                  size={'md'}
-                  onClick={async () => {
-                    try {
-                      console.log({ ...payload, coFondateur: coFounder });
-                      const res = await axios.post(
-                      
-                        'https://api.stingo.vip/api/delete',
-                        {type : document.type, _id : document._id},
-                        {
-                          headers: {
-                            Authorization: `Bearer ${session.token}`,
-                          },
-                        }
-                      );
-                      console.log({ res });
-                    } catch (error) {
-                      console.log(error);
-                    }
-                  }}
-                >
-                  delete
-                </Button>
-                <Button colorScheme={'red'}>Download PDF</Button>
-                <Button
-                  onClick={() => navigate('/dashboard')}
-                  variant={'solid'}
-                  size={'md'}
-                >
-                  Return To Manager
-                </Button>
+                <Grid>
+                  <Button
+                    display={visibale}
+                    variant={'solid'}
+                    colorScheme={'teal'}
+                    size={'md'}
+                    onClick={async () => {
+                      const s = { ...payload };
+                      delete s.__v;
+                      try {
+                        console.log({ ...payload, coFondateur: coFounder });
+                        const res = await axios.post(
+                          'https://api.stingo.vip/api/update',
+                          s,
+                          {
+                            headers: {
+                              Authorization: `Bearer ${session.token}`,
+                            },
+                          }
+                        );
+                        console.log({ res });
+                      } catch (error) {
+                        console.log(error);
+                      }
+                    }}
+                  >
+                    Edit
+                  </Button>
+                  <Button
+                    display={visibale}
+                    variant={'solid'}
+                    colorScheme={'teal'}
+                    size={'md'}
+                    onClick={async () => {
+                      try {
+                        console.log({ ...payload, coFondateur: coFounder });
+                        const res = await axios.post(
+                          'https://api.stingo.vip/api/delete',
+                          { type: document.type, _id: document._id },
+                          {
+                            headers: {
+                              Authorization: `Bearer ${session.token}`,
+                            },
+                          }
+                        );
+                        console.log({ res });
+                      } catch (error) {
+                        console.log(error);
+                      }
+                    }}
+                  >
+                    delete
+                  </Button>
+                  <Button colorScheme={'red'}>Download PDF</Button>
+                  <Button
+                    onClick={() => navigate('/dashboard')}
+                    variant={'solid'}
+                    size={'md'}
+                  >
+                    Return To Manager
+                  </Button>
                 </Grid>
               </Grid>
             </Box>
